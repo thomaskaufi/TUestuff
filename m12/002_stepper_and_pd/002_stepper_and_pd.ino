@@ -1,9 +1,9 @@
-/* M1.2 sketch 2.0 // experiment 001
+/* M1.2 sketch 1.0 // experiment 002
 
     Code to listen to pd, and transmitting back to a software serial for debugging
     Rotates steppermotor accordingly in listening for spikes
 
-   
+
     Thomas Kaufmanas, Eindhoven 2024
 
 */
@@ -44,10 +44,11 @@ void setup() {
 
   pinMode(stepPin, OUTPUT);
   pinMode(directionPin, OUTPUT);
-
+  SUART.println("HI!__");
   for (int x = 0; x < 10; x++) {
     SUART.println(" ");
   }
+
 
 }
 
@@ -70,99 +71,29 @@ void loop() {
     SUART.print("!");
   }
 
-  if (millis() - timer > interval) { //FIRST TIMER ----------------------
-    SUART.println(" ");
-    SUART.print("End of reading!   ");
-    SUART.print(spikes);
-    SUART.print(" spikes were recorded, so...");
-
-    if (spikes > prevSpikes) {   // Tighten the physicalisation
-      if (virtualPos < 200) {
-        SUART.print("Adding steps");
-        virtualPos += 12;
-      }
-      else {
-        SUART.print("Resting at max!!");
-      }
-
-    }
-    if (spikes < prevSpikes || spikes == 0) {   // Loosen the physicalisation
-      if (virtualPos > 0) {
-        SUART.print("Subtracting steps");
-        virtualPos -= 12;
-      }
-      else {
-        SUART.print("Resting at min");
-      }
-    }
-    SUART.print("    Virtual Position: ");
-    SUART.print(virtualPos);
-    SUART.print("     Actual Position: ");
-    SUART.println(actualPos);
-    SUART.println("  ");
-    SUART.println("  ");
-
-    //Update previous counter and next
-    prevSpikes = spikes;
-    spikes = 0;
-    timer = millis(); // reset the timer
-  } //End of FIRST TIMER -----------------------------------------------------
 
 
-  if (millis() - timer2 > interval2) { // SECOND TIMER ----------
-    if (actualPos != virtualPos) {
-      //PULL ENABLE PIN TO LOW?!
 
-      if (actualPos < virtualPos) {
-        digitalWrite(directionPin, HIGH);
+  digitalWrite(directionPin, HIGH);
+  for (int p = 0; p < 10; p++) {
+    digitalWrite(stepPin, HIGH);
+    delayMicroseconds(stepSpeed);    // by changing this time delay between the steps we can change the rotation speed
+    digitalWrite(stepPin, LOW);
+  }
+  
+  delay(1000);
+  digitalWrite(directionPin, LOW);
+  
+  for (int q = 0; q <10; q++){
+  digitalWrite(stepPin, HIGH);
+  delayMicroseconds(stepSpeed);    // by changing this time delay between the steps we can change the rotation speed
+  digitalWrite(stepPin, LOW);
+  }
 
-        digitalWrite(stepPin, HIGH);
-        delayMicroseconds(stepSpeed);    // by changing this time delay between the steps we can change the rotation speed
-        digitalWrite(stepPin, LOW);
-        actualPos += 1;
-      }
-      if (actualPos > virtualPos) {
-        digitalWrite(directionPin, LOW);
 
-        digitalWrite(stepPin, HIGH);
-        delayMicroseconds(stepSpeed);    // by changing this time delay between the steps we can change the rotation speed
-        digitalWrite(stepPin, LOW);
-        actualPos -= 1;
-      }
 
-    }
-    timer2 = millis(); // reset the timer
-  } // End of SECOND TIMER
+
 
 
   delay(1);
 } //end of void
-
-
-
-
-
-/*
-  digitalWrite(directionPin, HIGH);
-  for (int x = 0; x < 50; x++) {
-  digitalWrite(stepPin, HIGH);
-  delayMicroseconds(stepSpeed);    // by changing this time delay between the steps we can change the rotation speed
-  digitalWrite(stepPin, LOW);
-  delayMicroseconds(stepSpeed);
-  stepsTaken += 1;
-  }
-*/
-
-
-
-
-/*
-  digitalWrite(directionPin, LOW);
-  for (int x = 0; x < 50; x++) {
-  digitalWrite(stepPin, HIGH);
-  delayMicroseconds(stepSpeed);    // by changing this time delay between the steps we can change the rotation speed
-  digitalWrite(stepPin, LOW);
-  delayMicroseconds(stepSpeed);
-  stepsTaken -= 1;
-  }
-*/
