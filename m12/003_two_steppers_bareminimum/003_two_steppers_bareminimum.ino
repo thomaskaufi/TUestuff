@@ -1,3 +1,12 @@
+/* M1.2 sketch 3.1 // experiment 003
+
+    Code to controll two stepper motors as a framework (bare minimum)
+    Based one example code by Hannah Elkens
+
+    Thomas Kaufmanas, Eindhoven 2024
+
+*/
+
 #include <TMCStepper.h>
 #include <SoftwareSerial.h>     // Software serial for the UART to TMC2209 - https://www.arduino.cc/en/Reference/softwareSerial
 #include <AccelStepper.h>
