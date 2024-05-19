@@ -1,8 +1,8 @@
 /* M1.2 sketch 3.2 // experiment 003
 
-    Code to controll two stepper motors without blocking other events
+    Code to controll two stepper motors without blocking other events. Revolves two-and-a-half rotations and then returns.
     Based on example code by Hannah Elkens
-   
+
     Thomas Kaufmanas, Eindhoven 2024
 
 */
@@ -32,6 +32,13 @@ TMC2209Stepper driver(SW_RX, SW_TX, R_SENSE, DRIVER_ADDRESS);
 AccelStepper stepper1(AccelStepper::DRIVER, STEP_PIN_1, DIR_PIN_1); // (Typeof driver: with 2 pins, STEP, DIR)
 AccelStepper stepper2(AccelStepper::DRIVER, STEP_PIN_2, DIR_PIN_2);
 
+long timer = 0;
+long timer2 = 0;
+int interval = 8000;
+int interval2 = 8000;
+
+boolean stepDir = true;
+
 void setup() {
   pinMode(EN_PIN_1, OUTPUT);
   pinMode(STEP_PIN_1, OUTPUT);
@@ -59,30 +66,50 @@ void setup() {
   stepper1.setPinsInverted(false, false, true);
 
   stepper2.setMaxSpeed(200);
-  stepper2.setAcceleration(100);
+  stepper2.setAcceleration(400);
   stepper2.setPinsInverted(false, false, true);
 }
 
 void loop() {
 
 
-  if (stepper1.distanceToGo() == 0) {
-    stepper1.runToNewPosition(0);
-
-    if (stepper1.currentPosition() == 0) {
-      stepper1.runToNewPosition(1600);
-    }
+  if (stepper1.targetPosition() < 200) {
+    stepDir = true;
+  }
+  if (stepper1.targetPosition() > 3000) {
+    stepDir = false;
   }
 
-
-  if (stepper2.distanceToGo() == 0) {
-    stepper2.runToNewPosition(0);
-
-    if (stepper2.currentPosition() == 0) {
-      stepper2.runToNewPosition(1600);
+  if (millis() - timer > interval) { // TIMER 1 AKA run this code every [interval1] seconds-----------------
+    if (stepDir) {
+      stepper1.move(200);
     }
-  }
+    else {
+      stepper1.move(-200);
+    }
 
-  Serial.println("runnin-");
+    timer = millis(); // reset the timer
+  } //End of FIRST TIMER -----------------------------------------------------------------------------------
+
+
+  if (millis() - timer2 > interval2) { // TIMER 2 AKA run this code every [interval2] seconds---------------
+    if (stepDir) {
+      stepper2.move(200);
+    }
+    else {
+      stepper2.move(-200);
+    }
+
+    timer2 = millis(); // reset the timer
+  } //End of FIRST TIMER -----------------------------------------------------------------------------------
+
+  stepper1.run();
+  stepper2.run();
+
+Serial.print(stepper1.targetPosition());
+Serial.print("       ");
+Serial.print(stepper2.targetPosition());
+Serial.print("       ");
+Serial.println(stepDir);
 
 }
