@@ -1,6 +1,7 @@
 /* M1.2 sketch 4.0 // experiment 004
 
-    Code to controll two stepper motors without blocking other events. Revolves two-and-a-half rotations and then returns.
+    Code to controll two stepper motors without blocking other events.
+    Recieves a sound level value from puredata. 
     Based on example code by Hannah Elkens
 
     Thomas Kaufmanas, Eindhoven 2024
