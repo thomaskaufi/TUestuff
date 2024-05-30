@@ -22,7 +22,7 @@
 
 
 #define SW_RX            12 // TMC2208/TMC2224 SoftwareSerial receive pin
-#define SW_TX            10 // TMC2208/TMC2224 SoftwareSerial transmit pin
+#define SW_TX            37 // TMC2208/TMC2224 SoftwareSerial transmit pin
 #define DRIVER_ADDRESS 0b00 // TMC2209 Driver address according to MS1 and MS2
 #define R_SENSE 0.11f // Match to your driver
 #define MICROSTEPS 1
@@ -76,7 +76,7 @@ void loop() {
   if (stepper1.targetPosition() < 200) {
     stepDir = true;
   }
-  if (stepper1.targetPosition() > 3000) {
+  if (stepper1.targetPosition() > 3200) {
     stepDir = false;
   }
 
