@@ -1,4 +1,4 @@
-#N canvas 600 69 1096 997 12;
+#N canvas 532 433 1148 587 12;
 #X obj 114 563 *~;
 #X obj 167 563 *~;
 #X floatatom 250 520 5 0 0 0 - - - 0;
@@ -11,12 +11,12 @@
 #X obj 283 598 dac~;
 #X obj 39 334 soundfiler;
 #N canvas 0 22 450 278 (subpatch) 0;
-#X array audioData1 1.63883e+07 float 2;
-#X coords 0 1 1.63883e+07 -1 200 140 1;
+#X array audioData1 7.4465e+06 float 2;
+#X coords 0 1 7.4465e+06 -1 200 140 1;
 #X restore 674 33 graph;
 #N canvas 0 22 450 278 (subpatch) 0;
-#X array audioData2 1.63883e+07 float 2;
-#X coords 0 1 1.63883e+07 -1 200 140 1;
+#X array audioData2 7.4465e+06 float 2;
+#X coords 0 1 7.4465e+06 -1 200 140 1;
 #X restore 674 192 graph;
 #X obj 80 418 tabplay~ audioData1;
 #X obj 139 372 bng 19 250 50 0 empty empty empty 0 -10 0 12 #fcfcfc #000000 #000000;
@@ -52,7 +52,7 @@
 #X obj 537 544 - 90, f 8;
 #X obj 528 615 vu 19 200 empty Live\ Db -1 -10 0 12 #404040 #000000 1 0;
 #X obj 536 471 *~;
-#X floatatom 496 407 0 0 20 0 - - - 0;
+#X floatatom 497 403 0 0 20 0 - - - 0;
 #X obj 534 432 adc~ 2;
 #X floatatom 518 839 5 0 0 0 - - - 0;
 #X obj 463 831 +;
